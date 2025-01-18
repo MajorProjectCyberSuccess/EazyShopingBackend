@@ -1,4 +1,4 @@
-package com.product.model;
+package com.eazyapp.model;
 
 import java.time.LocalDate;
 import jakarta.persistence.*;
@@ -59,3 +59,4 @@ public class Order {
 	
 
 }
+

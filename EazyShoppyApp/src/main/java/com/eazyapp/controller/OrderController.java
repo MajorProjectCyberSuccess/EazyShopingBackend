@@ -1,4 +1,4 @@
-package com.product.controller;
+package com.eazyapp.controller;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.product.model.Order;
-import com.product.service.OrderService;
+import com.eazyapp.model.Order;
+import com.eazyapp.service.OrderService;
 
 @RestController
 @RequestMapping("/api/orders")

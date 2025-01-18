@@ -1,12 +1,12 @@
-package com.product.service;
+package com.eazyapp.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.product.model.Order;
-import com.product.repository.OrderRepository;
+import com.eazyapp.model.Order;
+import com.eazyapp.repository.OrderRepository;
 
 @Service
 public class OrderService {
