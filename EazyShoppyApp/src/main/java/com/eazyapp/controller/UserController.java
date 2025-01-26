@@ -1,9 +1,11 @@
 package com.eazyapp.controller;
 
 import com.eazyapp.dto.UserDTO;
-import com.eazyapp.exception.EazyShoppyException;
+import com.eazyapp.formatter.ResponseFormatter;
 import com.eazyapp.requestwrapper.UserRequestWrapper;
 import com.eazyapp.service.UserService;
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,43 +13,42 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    @PostMapping("/create")
+    public ResponseEntity<JSONObject> createUser(@RequestBody UserRequestWrapper userRequestWrapper) {
+        System.out.println("create user Start");
+        userService.createUser(userRequestWrapper);
+        JSONObject data = ResponseFormatter.formatter("Success", 200, "User Created Successfully ");
+
+        System.out.println("create user end");
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody UserRequestWrapper userRequestWrapper) {
-        try {
-            userService.createUser(userRequestWrapper);
-            return new ResponseEntity<>("User created successfully", HttpStatus.CREATED);
-        } catch (EazyShoppyException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    @GetMapping("/getUserById")
+    public ResponseEntity<JSONObject> getUserById(@RequestHeader long id) {
+        System.out.println("get user Start");
+        UserDTO userDTO=userService.getUserById(id);
+
+        JSONObject data = ResponseFormatter.formatter("Success", 200, "User Listed Successfully ",userDTO);
+
+        System.out.println("get user end");
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable long id) {
-        try {
-            UserDTO user = userService.getUserById(id);
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } catch (EazyShoppyException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+    @GetMapping("/getAllUser")
+    public ResponseEntity<JSONObject> getAllUsers() {
+        System.out.println("get user Start");
 
-    @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        try {
-            List<UserDTO> users = userService.getAllUser();
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        } catch (EazyShoppyException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<UserDTO> userDTOS=userService.getAllUser();
+        JSONObject data = ResponseFormatter.formatter("Success", 200, "User Listed Successfully ",userDTOS);
+
+        System.out.println("get user end");
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 }
 

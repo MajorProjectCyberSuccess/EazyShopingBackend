@@ -13,7 +13,7 @@ public class UserDTO {
 
     private String phoneNumber;
 
-    private Long uniqueId;
+    private String uniqueId;
 
     private String roleType;
 

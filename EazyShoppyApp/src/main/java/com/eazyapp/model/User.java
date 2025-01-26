@@ -21,8 +21,11 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name="phone_number")
-    @Pattern(regexp = "^\\\\+[1-9]\\\\\\\\d{1,14}$")
+   // @Pattern(regexp = "^\\\\+[1-9]\\\\\\\\d{1,14}$")
     private String phoneNumber;
 
     @Column(name = "unique_id",unique = true)

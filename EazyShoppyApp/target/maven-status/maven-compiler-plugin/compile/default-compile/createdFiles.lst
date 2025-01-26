@@ -1,4 +1,5 @@
 com\eazyapp\repository\CartRepository.class
+com\eazyapp\repository\OrderRepository.class
 com\eazyapp\ServletInitializer.class
 com\eazyapp\requestwrapper\RoleRequestWrapper.class
 com\eazyapp\controller\UserController.class
@@ -8,6 +9,7 @@ com\eazyapp\service\Implementation\UserServiceImpl.class
 com\eazyapp\service\RoleService.class
 com\eazyapp\model\Role.class
 com\eazyapp\repository\ProductRepository.class
+com\eazyapp\controller\OrderController.class
 com\eazyapp\service\ProductService.class
 com\eazyapp\requestwrapper\UserRequestWrapper.class
 com\eazyapp\requestwrapper\ProductRequestWrapper.class
@@ -19,6 +21,7 @@ com\eazyapp\configuration\CorsConfig.class
 com\eazyapp\dto\ProductDTO.class
 com\eazyapp\EazyShoppyAppApplication.class
 com\eazyapp\model\User.class
+com\eazyapp\service\OrderService.class
 com\eazyapp\requestwrapper\CartRequestWrapper.class
 com\eazyapp\formatter\ResponseFormatter.class
 com\eazyapp\model\Product.class
@@ -38,3 +41,4 @@ com\eazyapp\service\Implementation\CartServiceImpl.class
 com\eazyapp\service\UserService.class
 com\eazyapp\controller\CartController.class
 com\eazyapp\controller\RoleController.class
+com\eazyapp\model\Order.class
