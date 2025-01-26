@@ -19,6 +19,7 @@ public class UserRequestWrapper {
     private String phoneNumber;
     //private String uniqueId;
 
+    private String password;
     private long roleId;
 
 }

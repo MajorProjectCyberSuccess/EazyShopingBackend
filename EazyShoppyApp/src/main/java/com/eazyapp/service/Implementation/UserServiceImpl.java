@@ -24,8 +24,7 @@ public class UserServiceImpl implements UserService {
 
     public void createUser(UserRequestWrapper userRequestWrapper) throws EazyShoppyException{
         Optional<User> user= userRepository.findUserFromEmail(userRequestWrapper.getEmail());
-        Optional<Role> role =roleRepository.findById(user.get().getRole().getId());
-        List<Long> uniqueIds=userRepository.findAllUniqueId();
+        Optional<Role> role =roleRepository.findById(userRequestWrapper.getRoleId());
         if(user.isEmpty())
         {
             User user1= new User();
@@ -38,14 +37,19 @@ public class UserServiceImpl implements UserService {
             }
 
             user1.setUniqueId(randomUUID);
-
-            user1.setUniqueId(uniqueId);
+            user1.setPassword(userRequestWrapper.getPassword());
             user1.setPhoneNumber(userRequestWrapper.getPhoneNumber());
-            user1.setRole(user.get().getRole());
+
+            if (role.isPresent())
+            {
+                user1.setRole(role.get());
+            }else {
+                throw  new EazyShoppyException("Role already exist",400);
+            }
             userRepository.save(user1);
         }
         else {
-            throw  new EazyShoppyException("Role already exist",400);
+            throw  new EazyShoppyException("User already exist",400);
         }
     }
     public UserDTO getUserById(long id) throws EazyShoppyException
@@ -56,13 +60,13 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO= new UserDTO();
         userDTO.setName(user.get().getName());
         userDTO.setEmail(user.get().getEmail());
-        userDTO.setUniqueId(user.get().getUniqueId());
+       userDTO.setUniqueId(user.get().getUniqueId());
         userDTO.setPhoneNumber(user.get().getPhoneNumber());
         userDTO.setRoleType(user.get().getRole().getRoleType());
         return userDTO;
         }
         else {
-            throw  new EazyShoppyException("Role for this id  not exist",400);
+            throw  new EazyShoppyException("user for this id  not exist",400);
         }
     }
     public List<UserDTO> getAllUser() throws EazyShoppyException

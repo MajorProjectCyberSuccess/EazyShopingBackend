@@ -27,7 +27,7 @@ public class RoleServiceImpl implements RoleService {
 
     if (role.isEmpty()){
         Role newRole= new Role();
-        newRole.setRoleType(roleRequestWrapper.getRoleType());
+        newRole.setRoleType(roleRequestWrapper.getRoleType().toUpperCase());
         roleRepository.save(newRole);
     }else {
         throw  new EazyShoppyException("Role already exist",400);
