@@ -1,62 +1,41 @@
 package com.eazyapp.model;
 
-import java.time.LocalDate;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import java.time.LocalDate;
+import java.util.Set;
 
+@Getter
+@Setter
 @Entity
-@Table(name="orders")
+@Table(name = "orders")
 public class Order {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long orderId;
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private Long userId;
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private LocalDate orderDate;
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private Double totalAmount;
+
 	@Column(nullable = false, length = 255)
 	private String shippingAddress;
+
 	@Column(nullable = false, length = 50)
 	private String orderstatus;
-	
-	public Long getOrderId() {
-		return orderId;
-	}
-	public void setOrderId(Long orderId) {
-		this.orderId = orderId;
-	}
-	public Long getUserId() {
-		return userId;
-	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-	public LocalDate getOrderDate() {
-		return orderDate;
-	}
-	public void setOrderDate(LocalDate orderDate) {
-		this.orderDate = orderDate;
-	}
-	public Double getTotalAmount() {
-		return totalAmount;
-	}
-	public void setTotalAmount(Double totalAmount) {
-		this.totalAmount = totalAmount;
-	}
-	public String getShippingAddress() {
-		return shippingAddress;
-	}
-	public void setShippingAddress(String shippingAddress) {
-		this.shippingAddress = shippingAddress;
-	}
-	public String getOrderstatus() {
-		return orderstatus;
-	}
-	public void setOrderstatus(String orderstatus) {
-		this.orderstatus = orderstatus;
-	}
-	
 
+	@ManyToMany
+	@JoinTable(
+			name = "order_product",
+			joinColumns = @JoinColumn(name = "order_id"),
+			inverseJoinColumns = @JoinColumn(name = "product_id")
+	)
+	private Set<Product> products;
 }
-

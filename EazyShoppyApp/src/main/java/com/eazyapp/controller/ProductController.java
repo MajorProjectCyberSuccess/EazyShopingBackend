@@ -1,66 +1,49 @@
 package com.eazyapp.controller;
 
-import java.util.List;
-import java.util.Optional;
-
-import com.eazyapp.model.Product;
-import com.eazyapp.service.Implementation.ProductServiceImpl;
+import com.eazyapp.dto.ProductDTO;
+import com.eazyapp.exception.EazyShoppyException;
+import com.eazyapp.formatter.ResponseFormatter;
+import com.eazyapp.requestwrapper.ProductRequestWrapper;
+import com.eazyapp.service.ProductService;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-
+import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/product")
 public class ProductController {
-	
+
 	@Autowired
-	private ProductServiceImpl productservice;
-	
-	@GetMapping
-	public List<Product> getAllProducts(){
-		return productservice.getAllProducts();
-	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<Product> getProductById(@PathVariable Long id){
-		Optional<Product> product = productservice.getProductById(id);
-		return product.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-	}
-	
-	@PostMapping("/saveproduct")
-	public Product createProduct(@RequestBody Product product) {
-		return productservice.saveProduct(product);
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<Product> updateProduct(@PathVariable Long id,@RequestBody Product productDetails){
-		Optional<Product> product = productservice.getProductById(id);
-		if(product.isPresent()) {
-			Product existingProduct = product.get();
-		    existingProduct.setName(productDetails.getName());
-		    existingProduct.setProductDetails(productDetails.getProductDetails());
-		    existingProduct.setCategoryId(productDetails.getCategoryId());
-		    existingProduct.setPrice(productDetails.getPrice());
-		    
-		    return ResponseEntity.ok(productservice.saveProduct(existingProduct));
-		   
-		}
-		return ResponseEntity.notFound().build();
-	}
-	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
-		productservice.deleteProduct(id);
-		return ResponseEntity.noContent().build();
+	private ProductService productService;
+
+	@PostMapping("/create")
+	public ResponseEntity<JSONObject> createProduct(@RequestBody ProductRequestWrapper productRequestWrapper) throws EazyShoppyException {
+		System.out.println("Create product start");
+		productService.createProduct(productRequestWrapper);
+		JSONObject data = ResponseFormatter.formatter("Success", 200, "Product created successfully");
+		System.out.println("Create product end");
+		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 
+	@GetMapping("/getAllProducts")
+	public ResponseEntity<JSONObject> getAllProducts() {
+		System.out.println("Get all products start");
+		List<ProductDTO> products = productService.getAllProducts();
+		JSONObject data = ResponseFormatter.formatter("Success", 200, "Products listed successfully", products);
+		System.out.println("Get all products end");
+		return new ResponseEntity<>(data, HttpStatus.OK);
+	}
+
+	@GetMapping("/getProductById")
+	public ResponseEntity<JSONObject> getProductById(@RequestHeader Long id) throws EazyShoppyException {
+		System.out.println("Get product by ID start");
+		ProductDTO product = productService.getProductById(id);
+		JSONObject data = ResponseFormatter.formatter("Success", 200, "Product retrieved successfully", product);
+		System.out.println("Get product by ID end");
+		return new ResponseEntity<>(data, HttpStatus.OK);
+	}
 }
