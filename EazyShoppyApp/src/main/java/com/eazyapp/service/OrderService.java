@@ -1,33 +1,18 @@
 package com.eazyapp.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.eazyapp.dto.OrderDTO;
+import com.eazyapp.exception.EazyShoppyException;
+import com.eazyapp.requestwrapper.OrderRequestWrapper;
 import org.springframework.stereotype.Service;
 
-import com.eazyapp.model.Order;
-import com.eazyapp.repository.OrderRepository;
+import java.util.List;
 
 @Service
-public class OrderService {
-	@Autowired
-	private OrderRepository orderrepository;
-	
-	//Add new order
-	public Order addOrder(Order order) {
-		return orderrepository.save(order);
-	}
-	
-	//get all orders
-	public List<Order> getAllOrders(){
-		return orderrepository.findAll();
-	}
-	//get order by id
-	public Order getOrderById(Long orderId) {
-		return orderrepository.findById(orderId).orElse(null);
-	}
-	//delete an order by id
-	public void deleteOrder(Long orderId) {
-		orderrepository.deleteById(orderId);
-	}
+public interface OrderService {
+
+    void createOrder(OrderRequestWrapper orderRequestWrapper) throws EazyShoppyException;
+
+    OrderDTO getOrderById(long id) throws EazyShoppyException;
+
+    List<OrderDTO> getAllOrders() throws EazyShoppyException;
 }
