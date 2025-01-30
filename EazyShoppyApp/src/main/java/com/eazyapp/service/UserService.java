@@ -17,5 +17,5 @@ public interface UserService {
 
     List<UserDTO> getAllUser() throws EazyShoppyException;
 
-     boolean login(UserLoginRequestWrapper userLoginRequestWrapper) throws EazyShoppyException;
+     long login(UserLoginRequestWrapper userLoginRequestWrapper) throws EazyShoppyException;
 }

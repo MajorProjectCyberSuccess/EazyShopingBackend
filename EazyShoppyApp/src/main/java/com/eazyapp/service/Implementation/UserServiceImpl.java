@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public boolean login(UserLoginRequestWrapper userLoginRequestWrapper) throws EazyShoppyException
+    public long login(UserLoginRequestWrapper userLoginRequestWrapper) throws EazyShoppyException
     {
         Optional<User> user= userRepository.findUserFromEmail(userLoginRequestWrapper.getEmail());
 
@@ -72,11 +72,11 @@ public class UserServiceImpl implements UserService {
 
                 newUserLogged.setUser(user.get());
                 userLoggedRepository.save(newUserLogged);
-                return true;
+                return user.get().getId();
             }
         }
 
-        return false;
+        return 0;
     }
     public UserDTO getUserById(long id) throws EazyShoppyException
     {

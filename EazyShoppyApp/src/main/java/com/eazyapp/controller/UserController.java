@@ -36,8 +36,8 @@ public class UserController {
 
         System.out.println("login user Start");
 
-        boolean user= userService.login(userLoginRequestWrapper);
-        JSONObject data = ResponseFormatter.formatter("Success", 200, "Login Successful",user);
+        long userId= userService.login(userLoginRequestWrapper);
+        JSONObject data = ResponseFormatter.formatter("Success", 200, "Login Successful",userId);
 
         System.out.println("login user end");
 
