@@ -3,6 +3,8 @@ package com.eazyapp.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -18,21 +20,29 @@ public class Product {
 	@Column(nullable = false)
 	private String name;
 
-	@Column(length = 500)
-	private String productDetails;
+	@Column(name = "brand")
+	private String brand;
 
-	@Column(nullable = false)
-	private long categoryId;
+	@ManyToOne
+	@JoinColumn(name = "category_id", nullable = false)
+	private Category category;
 
-	@Column(nullable = false)
-	private double price;
+	@Column(name = "ratings")
+	private Double ratings;
 
-	@Column
-	private String productImage;
+	@Column(name = "reviews")
+	private Integer reviews;
 
-//	@ManyToMany(mappedBy = "products")
-//	private Set<Cart> carts;
-//
-//	@ManyToMany(mappedBy = "products")
-//	private Set<Order> orders;
+	@Column(name="discount_price")
+	private double discountPrice;
+
+	@Column(name="original_price")
+	private double originalPrice;
+
+	@Column(name="discount")
+	private double discount;
+
+	@Column(name="product_description")
+	private String productDescription;
+
 }

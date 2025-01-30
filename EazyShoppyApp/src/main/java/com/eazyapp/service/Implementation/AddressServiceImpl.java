@@ -27,16 +27,16 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void createAddress(AddressRequestWrapper addressRequestWrapper) throws EazyShoppyException {
-        AddressDTO addressDTO = addressRequestWrapper.getAddress();
-        User user = userRepository.findById(addressDTO.getUserId())
+
+        User user = userRepository.findById(addressRequestWrapper.getUserId())
                 .orElseThrow(() -> new EazyShoppyException("User not found", 400));
 
         Address address = new Address();
-        address.setStreet(addressDTO.getStreet());
-        address.setCity(addressDTO.getCity());
-        address.setState(addressDTO.getState());
-        address.setZipCode(addressDTO.getZipCode());
-        address.setCountry(addressDTO.getCountry());
+        address.setStreet(addressRequestWrapper.getStreet());
+        address.setCity(addressRequestWrapper.getCity());
+        address.setState(addressRequestWrapper.getState());
+        address.setZipCode(addressRequestWrapper.getZipCode());
+        address.setCountry(addressRequestWrapper.getCountry());
         address.setUser(user);
 
         addressRepository.save(address);

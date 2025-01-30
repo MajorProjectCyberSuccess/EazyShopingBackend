@@ -7,7 +7,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AddressRequestWrapper {
-    private AddressDTO address;
+    private String street;
+    private String city;
+    private String state;
+    private String zipCode;
+    private String country;
+    private Long userId;
 
     // Getter and Setter
 }

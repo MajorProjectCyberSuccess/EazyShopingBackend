@@ -3,6 +3,8 @@ package com.eazyapp.controller;
 import com.eazyapp.dto.ProductDTO;
 import com.eazyapp.exception.EazyShoppyException;
 import com.eazyapp.formatter.ResponseFormatter;
+import com.eazyapp.model.ProductImage;
+import com.eazyapp.repository.ProductImageRepository;
 import com.eazyapp.requestwrapper.ProductRequestWrapper;
 import com.eazyapp.service.ProductService;
 import org.json.simple.JSONObject;
@@ -16,10 +18,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/product")
@@ -28,11 +32,10 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	@Value("${file.upload-dir}")
-	private String uploadDir;
+	@Autowired
+	private ProductImageRepository productImageRepository;
 
-
-	@PostMapping(value = "/create", consumes = "multipart/form-data")
+	@PostMapping(value = "/create")
 	public ResponseEntity<JSONObject> createProduct(@RequestBody ProductRequestWrapper productRequestWrapper)  throws EazyShoppyException {
 		System.out.println("Create product start");
 		productService.createProduct(productRequestWrapper);
@@ -58,21 +61,44 @@ public class ProductController {
 		System.out.println("Get product by ID end");
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
-	@GetMapping("/images/{filename}")
-	public ResponseEntity<Resource> getImage(@PathVariable String filename) {
-		try {
-			Path filePath = Paths.get(uploadDir).resolve(filename);
-			Resource resource = new UrlResource(filePath.toUri());
+	@GetMapping("/getProductByCategoryId")
+	public ResponseEntity<JSONObject> getProductByCategoryId(@RequestHeader Long categoryId) throws EazyShoppyException {
+		System.out.println("Get product by category ID start");
+		List<ProductDTO> products = productService.getProductByCategoryId(categoryId);
+		JSONObject data = ResponseFormatter.formatter("Success", 200, "Products listed successfully", products);
+		System.out.println("Get product by category ID end");
+		return new ResponseEntity<>(data, HttpStatus.OK);
+	}
+	@GetMapping("/filterProductByName")
+	public ResponseEntity<JSONObject> filterProductByName(@RequestHeader String name) throws EazyShoppyException {
+		System.out.println("filter product by name start");
+		List<ProductDTO> products = productService.filterProductByName(name);
+		JSONObject data = ResponseFormatter.formatter("Success", 200, "Products listed successfully", products);
+		System.out.println("filter product by name  end");
+		return new ResponseEntity<>(data, HttpStatus.OK);
+	}
 
-			if (resource.exists()) {
-				return ResponseEntity.ok()
-						.contentType(MediaType.IMAGE_JPEG)
-						.body(resource);
-			} else {
-				return ResponseEntity.notFound().build();
-			}
-		} catch (MalformedURLException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+	@PostMapping("/upload")
+	public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file,@RequestParam Long productId) throws IOException {
+		System.out.println("Create product image start");
+		productService.setProductImage(file,productId);
+		JSONObject data = ResponseFormatter.formatter("Success", 200, "Product created successfully");
+		System.out.println("Create product image end");
+
+		return ResponseEntity.ok("Image uploaded successfully.");
+	}
+
+	@GetMapping("/images/{id}")
+	public ResponseEntity<?> getImage(@PathVariable Long productId) {
+		List<ProductImage> images = productImageRepository.findByProductId(productId);
+		if (images.isEmpty()) {
+			return ResponseEntity.ok("Image Not Found.");
 		}
+				return ResponseEntity.ok()
+						.contentType(MediaType.IMAGE_JPEG) // Adjust content type as needed
+						.body(images);
+
+
 	}
 }
