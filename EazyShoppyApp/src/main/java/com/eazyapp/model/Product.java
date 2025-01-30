@@ -27,9 +27,12 @@ public class Product {
 	@Column(nullable = false)
 	private double price;
 
-	@ManyToMany(mappedBy = "products")
-	private Set<Cart> carts;
+	@Column
+	private String productImage;
 
-	@ManyToMany(mappedBy = "products")
-	private Set<Order> orders;
+//	@ManyToMany(mappedBy = "products")
+//	private Set<Cart> carts;
+//
+//	@ManyToMany(mappedBy = "products")
+//	private Set<Order> orders;
 }

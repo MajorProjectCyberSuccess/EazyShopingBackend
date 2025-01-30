@@ -4,6 +4,7 @@ import com.eazyapp.dto.ProductDTO;
 import com.eazyapp.exception.EazyShoppyException;
 import com.eazyapp.requestwrapper.ProductRequestWrapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

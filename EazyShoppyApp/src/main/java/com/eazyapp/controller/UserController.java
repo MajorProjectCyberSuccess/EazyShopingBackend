@@ -2,6 +2,7 @@ package com.eazyapp.controller;
 
 import com.eazyapp.dto.UserDTO;
 import com.eazyapp.formatter.ResponseFormatter;
+import com.eazyapp.requestwrapper.UserLoginRequestWrapper;
 import com.eazyapp.requestwrapper.UserRequestWrapper;
 import com.eazyapp.service.UserService;
 import org.json.simple.JSONObject;
@@ -28,7 +29,20 @@ public class UserController {
         System.out.println("create user end");
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
+    @PostMapping(value ="/login")
+    public ResponseEntity<JSONObject> login(
+            @RequestBody UserLoginRequestWrapper userLoginRequestWrapper
+    )  {
 
+        System.out.println("login user Start");
+
+        boolean user= userService.login(userLoginRequestWrapper);
+        JSONObject data = ResponseFormatter.formatter("Success", 200, "Login Successful",user);
+
+        System.out.println("login user end");
+
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
     @GetMapping("/getUserById")
     public ResponseEntity<JSONObject> getUserById(@RequestHeader long id) {
         System.out.println("get user Start");

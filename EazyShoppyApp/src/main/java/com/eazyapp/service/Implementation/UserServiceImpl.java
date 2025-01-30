@@ -5,8 +5,11 @@ import com.eazyapp.dto.UserDTO;
 import com.eazyapp.exception.EazyShoppyException;
 import com.eazyapp.model.Role;
 import com.eazyapp.model.User;
+import com.eazyapp.model.UserLoggedIn;
 import com.eazyapp.repository.RoleRepository;
+import com.eazyapp.repository.UserLoggedRepository;
 import com.eazyapp.repository.UserRepository;
+import com.eazyapp.requestwrapper.UserLoginRequestWrapper;
 import com.eazyapp.requestwrapper.UserRequestWrapper;
 import com.eazyapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private UserLoggedRepository userLoggedRepository;
 
     public void createUser(UserRequestWrapper userRequestWrapper) throws EazyShoppyException{
         Optional<User> user= userRepository.findUserFromEmail(userRequestWrapper.getEmail());
@@ -51,6 +56,27 @@ public class UserServiceImpl implements UserService {
         else {
             throw  new EazyShoppyException("User already exist",400);
         }
+    }
+
+
+    public boolean login(UserLoginRequestWrapper userLoginRequestWrapper) throws EazyShoppyException
+    {
+        Optional<User> user= userRepository.findUserFromEmail(userLoginRequestWrapper.getEmail());
+
+        userLoggedRepository.deleteAll();
+
+        if (user.isPresent())
+        {
+            if (user.get().getPassword().equals(userLoginRequestWrapper.getPassword())) {
+                UserLoggedIn newUserLogged= new UserLoggedIn();
+
+                newUserLogged.setUser(user.get());
+                userLoggedRepository.save(newUserLogged);
+                return true;
+            }
+        }
+
+        return false;
     }
     public UserDTO getUserById(long id) throws EazyShoppyException
     {

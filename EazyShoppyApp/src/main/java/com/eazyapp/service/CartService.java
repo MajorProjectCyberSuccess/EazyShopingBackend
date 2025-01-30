@@ -3,6 +3,7 @@ package com.eazyapp.service;
 import com.eazyapp.dto.CartDTO;
 import com.eazyapp.exception.EazyShoppyException;
 import com.eazyapp.requestwrapper.CartRequestWrapper;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

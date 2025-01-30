@@ -2,6 +2,7 @@ package com.eazyapp.service;
 
 import com.eazyapp.dto.UserDTO;
 import com.eazyapp.exception.EazyShoppyException;
+import com.eazyapp.requestwrapper.UserLoginRequestWrapper;
 import com.eazyapp.requestwrapper.UserRequestWrapper;
 import org.springframework.stereotype.Service;
 
@@ -15,4 +16,6 @@ public interface UserService {
     UserDTO getUserById(long id) throws EazyShoppyException;
 
     List<UserDTO> getAllUser() throws EazyShoppyException;
+
+     boolean login(UserLoginRequestWrapper userLoginRequestWrapper) throws EazyShoppyException;
 }
