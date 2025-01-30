@@ -89,16 +89,12 @@ public class ProductController {
 		return ResponseEntity.ok("Image uploaded successfully.");
 	}
 
-	@GetMapping("/images/{id}")
+	@GetMapping("/images/{productId}")
 	public ResponseEntity<?> getImage(@PathVariable Long productId) {
-		List<ProductImage> images = productImageRepository.findByProductId(productId);
-		if (images.isEmpty()) {
-			return ResponseEntity.ok("Image Not Found.");
-		}
+		byte[] images = productImageRepository.findByProductId(productId);
 				return ResponseEntity.ok()
 						.contentType(MediaType.IMAGE_JPEG) // Adjust content type as needed
 						.body(images);
-
 
 	}
 }

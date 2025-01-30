@@ -86,17 +86,7 @@ public class ProductServiceImpl implements ProductService {
 		throw new EazyShoppyException("Product not found", 404);
 	}
 	}
-//	public List<byte[]> getProductImage(Long productId) throws IOException
-//	{
-//		List<ProductImage> images=productImageRepository.findByProductId(productId);
-//		if(!images.isEmpty()){
-//			ProductImageDTO productImageDTO=new ProductImageDTO();
-//			productImageDTO.setImages(images.);
-//		}
-//		else {
-//			throw new EazyShoppyException("Product not found", 404);
-//		}
-//	}
+
 
 	@Override
 	public ProductDTO getProductById(long id) throws EazyShoppyException {

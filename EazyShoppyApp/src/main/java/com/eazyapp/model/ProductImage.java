@@ -20,7 +20,7 @@ public class ProductImage {
     @Column(name = "image", columnDefinition = "LONGBLOB")
     private byte[] image;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 }
