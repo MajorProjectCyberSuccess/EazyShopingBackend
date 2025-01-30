@@ -1,25 +1,27 @@
 package com.eazyapp.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+
+// Entity Class
+@Getter
+@Setter
 @Entity
-@Table(name = "address")
 public class Address {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "state")
-    private String state;
-    @Column(name = "city")
-    private String city;
-    @Column(name = "street")
+    private Long id;
     private String street;
-    @Column(name = "pincode" ,length = 6)
-    private Integer pincode;
+    private String city;
+    private String state;
+    private String zipCode;
+    private String country;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    // Getters and Setters
 }

@@ -9,7 +9,6 @@ import java.util.List;
 
 @Service
 public interface OrderService {
-
     void createOrder(OrderRequestWrapper orderRequestWrapper) throws EazyShoppyException;
 
     OrderDTO getOrderById(long id) throws EazyShoppyException;

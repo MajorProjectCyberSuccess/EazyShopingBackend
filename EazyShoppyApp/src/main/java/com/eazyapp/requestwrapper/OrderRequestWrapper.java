@@ -1,17 +1,12 @@
 package com.eazyapp.requestwrapper;
 
+import com.eazyapp.dto.OrderDTO;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
 public class OrderRequestWrapper {
-
-    private Long userId;
-    private LocalDate orderDate;
-    private Double totalAmount;
-    private String shippingAddress;
-    private String orderStatus;
+    private OrderDTO order;
+    private double totalAmount; // It may not be necessary to have this as separate from OrderDTO
 }

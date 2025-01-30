@@ -3,39 +3,30 @@ package com.eazyapp.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDate;
-import java.util.Set;
 
+import java.util.List;
+
+@Entity
 @Getter
 @Setter
-@Entity
 @Table(name = "orders")
 public class Order {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long orderId;
+	private Long id;
 
-	@Column(nullable = false)
-	private Long userId;
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
-	@Column(nullable = false)
-	private LocalDate orderDate;
+	@ManyToOne
+	@JoinColumn(name = "addressId", nullable = false)
+	private Address address;
 
-	@Column(nullable = false)
-	private Double totalAmount;
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<OrderItem> orderItems;
 
-	@Column(nullable = false, length = 255)
-	private String shippingAddress;
+	private double totalAmount;
 
-	@Column(nullable = false, length = 50)
-	private String orderstatus;
-
-	@ManyToMany
-	@JoinTable(
-			name = "order_product",
-			joinColumns = @JoinColumn(name = "order_id"),
-			inverseJoinColumns = @JoinColumn(name = "product_id")
-	)
-	private Set<Product> products;
+	// Getters and Setters
 }
