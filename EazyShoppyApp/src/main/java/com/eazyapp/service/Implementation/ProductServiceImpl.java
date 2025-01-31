@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
 
 
 	@Override
-	public void createProduct(ProductRequestWrapper productRequestWrapper) throws EazyShoppyException {
+	public Long createProduct(ProductRequestWrapper productRequestWrapper) throws EazyShoppyException {
 		Optional<Product> existingProduct = productRepository.findByName(productRequestWrapper.getName());
 		Optional<Category> category=categoryRepository.findById(productRequestWrapper.getCategoryId());
 		if (existingProduct.isPresent()) {
@@ -69,6 +69,8 @@ public class ProductServiceImpl implements ProductService {
 
 
 		productRepository.save(product);
+
+		return product.getProductId();
 	}
 
 	public void setProductImage( MultipartFile file,Long productId) throws IOException

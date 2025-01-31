@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public interface ProductService {
 
-    void createProduct(ProductRequestWrapper productRequestWrapper) throws EazyShoppyException;
+    Long createProduct(ProductRequestWrapper productRequestWrapper) throws EazyShoppyException;
 
     ProductDTO getProductById(long id) throws EazyShoppyException;
 

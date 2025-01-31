@@ -38,8 +38,8 @@ public class ProductController {
 	@PostMapping(value = "/create")
 	public ResponseEntity<JSONObject> createProduct(@RequestBody ProductRequestWrapper productRequestWrapper)  throws EazyShoppyException {
 		System.out.println("Create product start");
-		productService.createProduct(productRequestWrapper);
-		JSONObject data = ResponseFormatter.formatter("Success", 200, "Product created successfully");
+		Long id=productService.createProduct(productRequestWrapper);
+		JSONObject data = ResponseFormatter.formatter("Success", 200, "Product created successfully",id);
 		System.out.println("Create product end");
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
