@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 public class ProductImageDTO {
 
-    private Long productId;
+//    private Long productId;
 
     private List<byte[]> images;
 }

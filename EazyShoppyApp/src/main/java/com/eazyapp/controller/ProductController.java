@@ -1,6 +1,7 @@
 package com.eazyapp.controller;
 
 import com.eazyapp.dto.ProductDTO;
+import com.eazyapp.dto.ProductImageDTO;
 import com.eazyapp.exception.EazyShoppyException;
 import com.eazyapp.formatter.ResponseFormatter;
 import com.eazyapp.model.ProductImage;
@@ -78,7 +79,6 @@ public class ProductController {
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 
-
 	@PostMapping("/upload")
 	public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file,@RequestParam Long productId) throws IOException {
 		System.out.println("Create product image start");
@@ -89,12 +89,21 @@ public class ProductController {
 		return ResponseEntity.ok("Image uploaded successfully.");
 	}
 
+//	@GetMapping("/images/{productId}")
+//	public ResponseEntity<?> getImage(@PathVariable Long productId) {
+//		byte[] images = productImageRepository.findByProductId(productId);
+//				return ResponseEntity.ok()
+//						.contentType(MediaType.IMAGE_JPEG) // Adjust content type as needed
+//						.body(images);
+//
+//	}
 	@GetMapping("/images/{productId}")
 	public ResponseEntity<?> getImage(@PathVariable Long productId) {
-		byte[] images = productImageRepository.findByProductId(productId);
-				return ResponseEntity.ok()
-						.contentType(MediaType.IMAGE_JPEG) // Adjust content type as needed
-						.body(images);
-
+		ProductImageDTO images = productService.getProductImage(productId);
+//				return ResponseEntity.ok()
+//						.contentType(MediaType.IMAGE_JPEG) // Adjust content type as needed
+//						.body(images);
+		JSONObject data = ResponseFormatter.formatter("Success", 200, "Products listed successfully", images);
+		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 }

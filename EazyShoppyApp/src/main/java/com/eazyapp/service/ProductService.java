@@ -1,6 +1,7 @@
 package com.eazyapp.service;
 
 import com.eazyapp.dto.ProductDTO;
+import com.eazyapp.dto.ProductImageDTO;
 import com.eazyapp.exception.EazyShoppyException;
 import com.eazyapp.requestwrapper.ProductRequestWrapper;
 import org.springframework.data.jpa.repository.Query;
@@ -24,5 +25,7 @@ public interface ProductService {
     List<ProductDTO> getProductByCategoryId(Long categoryId) throws EazyShoppyException;
 
     List<ProductDTO> filterProductByName(String name) throws EazyShoppyException;
+
+     ProductImageDTO getProductImage(Long id) throws EazyShoppyException;
 
 }

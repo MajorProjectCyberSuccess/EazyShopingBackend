@@ -12,6 +12,6 @@ import java.util.List;
 public interface ProductImageRepository extends JpaRepository<ProductImage,Long> {
 
     @Query("select pi.image from ProductImage pi where pi.product.id = :productId")
-    byte[] findByProductId(Long productId);
+    List<byte[]> findByProductId(Long productId);
 
 }

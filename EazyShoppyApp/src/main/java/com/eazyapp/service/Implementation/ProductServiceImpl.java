@@ -35,9 +35,6 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
-	@Value("${file.upload-dir}")
-	private String uploadDir;
-
 
 	@Override
 	public Long createProduct(ProductRequestWrapper productRequestWrapper) throws EazyShoppyException {
@@ -174,5 +171,12 @@ public class ProductServiceImpl implements ProductService {
 			productDTOs.add(productDTO);
 		}
 		return productDTOs;
+	}
+	public ProductImageDTO getProductImage(Long id) throws EazyShoppyException{
+		List<byte[]> images= productImageRepository.findByProductId(id);
+		ProductImageDTO imageDTO=new ProductImageDTO();
+		imageDTO.setImages(images);
+		System.out.println(images);
+		return imageDTO;
 	}
 }
